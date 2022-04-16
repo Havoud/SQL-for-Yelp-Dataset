@@ -32,7 +32,6 @@ x. tip table        = 	10,000
 xi. user table      = 	10,000
 	
 
-
 2. Find the total number of distinct records for the primary keys in each of the tables listed below:
 
 i. Business     = 	10000
@@ -64,39 +63,39 @@ Note: Primary Keys are denoted in the ER-Diagram with a yellow key icon.
 	
 	Way 2nd:
 
-SELECT id, 
-CASE 
-    WHEN 
-        id IS NULL
-        OR name IS NULL
-        OR review_count IS NULL
-        OR yelping_since IS NULL
-        OR useful IS NULL
-        OR funny IS NULL
-        OR cool IS NULL
-        OR fans IS NULL
-        OR average_stars IS NULL
-        OR compliment_hot IS NULL
-        OR compliment_more IS NULL
-        OR compliment_profile IS NULL
-        OR compliment_cute IS NULL
-        OR compliment_note IS NULL
-        OR compliment_plain IS NULL
-        OR compliment_cool IS NULL
-        OR compliment_funny IS NULL
-        OR compliment_writer IS NULL
-        OR compliment_photos IS NULL
-    THEN 1
-    ELSE 0
-END AS Nulls
-FROM user
-WHERE Nulls = 1;
-
-+-------+
-| Nulls |
-+-------+
-+-------+
-(Zero rows)
+        SELECT id, 
+        CASE 
+            WHEN 
+                id IS NULL
+                OR name IS NULL
+                OR review_count IS NULL
+                OR yelping_since IS NULL
+                OR useful IS NULL
+                OR funny IS NULL
+                OR cool IS NULL
+                OR fans IS NULL
+                OR average_stars IS NULL
+                OR compliment_hot IS NULL
+                OR compliment_more IS NULL
+                OR compliment_profile IS NULL
+                OR compliment_cute IS NULL
+                OR compliment_note IS NULL
+                OR compliment_plain IS NULL
+                OR compliment_cool IS NULL
+                OR compliment_funny IS NULL
+                OR compliment_writer IS NULL
+                OR compliment_photos IS NULL
+            THEN 1
+            ELSE 0
+        END AS Nulls
+        FROM user
+        WHERE Nulls = 1;
+        
+        +-------+
+        | Nulls |
+        +-------+
+        +-------+
+        (Zero rows)
 	
 4. For each table and column listed below, display the smallest (minimum), largest (maximum), and average (mean) value for the following fields:
 
@@ -112,8 +111,7 @@ WHERE Nulls = 1;
 		| count(stars) | minim | maxim | average |
 		+--------------+-------+-------+---------+
 		|        10000 |     1 |     5 |  3.7082 |
-		+--------------+-------+-------+---------+
-		
+		+--------------+-------+-------+---------+		
 	
 	ii. Table: Business, Column: Stars
 	
@@ -226,7 +224,6 @@ Copy and Paste the Resulting Table Below (2 columns – star rating and count):
 +-----------+-------+
 
 
-
 7. Find the top 3 users based on their total number of reviews:
 		
 	SQL code used to arrive at answer:
@@ -268,25 +265,25 @@ Top 10 persons with most reviews and their fans number has been shown in the bel
 | Christine | 2009-07-08 00:00:00 |          930 |  173 |
 +-----------+---------------------+--------------+------+
 
-There is another way which is more scientific for answering this question. We can create the distribution for average
-of reviews and number of fans. With this way you can see that reviews are positively correlated with fans.
+There is another way which is more scientific for answering this question. We can create the distribution for average of reviews and number of fans. 
+With this way you can see that reviews are positively correlated with fans.
 	
 For using the 2nd way, we should utilize Case statement to bin fans into 5 categories incrementally, then find the average reviews of each bin.
 If the two are correlated, you will expect the review numbers to increase as the fan_bin increases.
 
-SELECT
-    CASE
-        WHEN fans < 10 THEN 1
-        WHEN fans < 20 THEN 2
-        WHEN fans < 30 THEN 3
-        WHEN fans < 40 THEN 4
-        ELSE 5
-    END AS fans_bin, 
-	AVG(review_count) AS avg_reviews
-FROM user
-GROUP BY fans_bin
-ORDER BY fans_bin;
-/*
+   SELECT
+       CASE
+           WHEN fans < 10 THEN 1
+           WHEN fans < 20 THEN 2
+           WHEN fans < 30 THEN 3
+           WHEN fans < 40 THEN 4
+           ELSE 5
+       END AS fans_bin, 
+	   AVG(review_count) AS avg_reviews
+   FROM user
+   GROUP BY fans_bin
+   ORDER BY fans_bin;
+
 +----------+---------------+
 | fans_bin |   avg_reviews |
 +----------+---------------+
@@ -571,8 +568,17 @@ ii. Write 1-2 brief paragraphs on the type of data you will need for your analys
        make different type of restaurants and check the ratings for each category of foods.
  
 iii. Output of your finished dataset:
+iv. Provide the SQL code you used to create your final dataset:
 
 Query 1:
+
+SELECT name, b.city, c.category, b.stars, b.review_count, b.is_open 
+FROM business b 
+LEFT JOIN category c
+ON b.id = c.business_id
+where b.city like '%Vegas%' and c.category is not null
+ORDER BY c.category DESC
+
 +------------------------------------------------+-----------+-------------------------------+-------+--------------+---------+
 | name                                           | city      | category                      | stars | review_count | is_open |
 +------------------------------------------------+-----------+-------------------------------+-------+--------------+---------+
@@ -606,6 +612,17 @@ Query 1:
   
 
 Query 2:
+
+Select category, COUNT(*) AS NoOfBusiness,avg(stars) As StarReviews, Avg(review_count) AS Avgreviews FROm
+business LEFT JOIN category
+on business.id = category.business_id
+LEFT JOIN hours
+on business.id = hours.business_id
+WHERE business.is_open =1
+GROUP BY category
+HAVING NoOfBusiness >10
+ORDER BY StarReviews DESC
+
 +-----------------------+--------------+---------------+---------------+
 | category              | NoOfBusiness |   StarReviews |    Avgreviews |
 +-----------------------+--------------+---------------+---------------+
@@ -638,6 +655,15 @@ Query 2:
 (Output limit exceeded, 25 of 59 total rows shown)  
 
 Query 3: 
+
+SELECT  C.Category
+        , AVG(B.review_count) AS Avg_Number_Of_Reviews
+        , AVG(b.stars)
+FROM category c INNER JOIN business b ON b.id = c.business_id
+WHERE C.Category IN ("Chinese","French","Indian","Italian","Japanese","Korean","Mexican")
+GROUP BY c.category 
+ORDER BY AVG(b.stars) DESC
+
 +----------+-----------------------+--------------+
 | category | Avg_Number_Of_Reviews | AVG(b.stars) |
 +----------+-----------------------+--------------+
@@ -650,32 +676,3 @@ Query 3:
 | Chinese  |                 199.0 |        3.125 |
 +----------+-----------------------+--------------+     
          
-iv. Provide the SQL code you used to create your final dataset:
-
-Query 1:
-SELECT name, b.city, c.category, b.stars, b.review_count, b.is_open 
-FROM business b 
-LEFT JOIN category c
-ON b.id = c.business_id
-where b.city like '%Vegas%' and c.category is not null
-ORDER BY c.category DESC
-
-Query 2:
-Select category, COUNT(*) AS NoOfBusiness,avg(stars) As StarReviews, Avg(review_count) AS Avgreviews FROm
-business LEFT JOIN category
-on business.id = category.business_id
-LEFT JOIN hours
-on business.id = hours.business_id
-WHERE business.is_open =1
-GROUP BY category
-HAVING NoOfBusiness >10
-ORDER BY StarReviews DESC
-
-Query 3:
-SELECT  C.Category
-        , AVG(B.review_count) AS Avg_Number_Of_Reviews
-        , AVG(b.stars)
-FROM category c INNER JOIN business b ON b.id = c.business_id
-WHERE C.Category IN ("Chinese","French","Indian","Italian","Japanese","Korean","Mexican")
-GROUP BY c.category 
-ORDER BY AVG(b.stars) DESC
