@@ -99,51 +99,53 @@ Result:
 	
 #### 4) For each table and column listed below, display the smallest (minimum), largest (maximum), and average (mean) value for the following fields:
 
-	i. Table: Review, Column: Stars
+i. Table: Review, Column: Stars
 	
-		min: 1		max: 5		avg: 3.7082
+> min: 1, max: 5, avg: 3.7082
 
-	Code:
-		SELECT count(stars) , min(stars) as minim, max(stars) as maxim, avg(stars) as average
-                FROM review 
-	Result:
-		+--------------+-------+-------+---------+
-		| count(stars) | minim | maxim | average |
-		+--------------+-------+-------+---------+
-		|        10000 |     1 |     5 |  3.7082 |
-		+--------------+-------+-------+---------+		
+Code:
+```
+SELECT count(stars) , min(stars) as minim, max(stars) as maxim, avg(stars) as average
+FROM review 
+```
+Result:
+>		+--------------+-------+-------+---------+
+>		| count(stars) | minim | maxim | average |
+>		+--------------+-------+-------+---------+
+>		|        10000 |     1 |     5 |  3.7082 |
+>		+--------------+-------+-------+---------+		
 	
-	ii. Table: Business, Column: Stars
+ii. Table: Business, Column: Stars
 	
-		min: 1		max: 5		avg: 3.6549
+> min: 1, max: 5, avg: 3.6549
 		
 	
-	iii. Table: Tip, Column: Likes
+iii. Table: Tip, Column: Likes
 	
-		min: 0		max: 2		avg: 0.0144
+> min: 0, max: 2, avg: 0.0144
 		
 	
-	iv. Table: Checkin, Column: Count
+iv. Table: Checkin, Column: Count
 	
-		min: 1		max: 53		avg: 1.9414
+> min: 1, max: 53, avg: 1.9414
 		
 	
-	v. Table: User, Column: Review_count
+v. Table: User, Column: Review_count
 	
-		min: 0		max: 2,000	avg: 24.2995
+> min: 0, max: 2,000, avg: 24.2995
 		
 
 #### 5) List the cities with the most reviews in descending order:
 
-	SQL code used to arrive at answer:
-        
+SQL code used to arrive at answer:
+```       
 		SELECT City, sum(review_count) as Number_of_Reviews
 		FROM business
 		GROUP BY City
 		ORDER BY Number_of_Reviews DESC
-	
-	Copy and Paste the Result Below:
-	
+```	
+Result:
+```
 +-----------------+-------------------+
 | city            | Number_of_Reviews |
 +-----------------+-------------------+
@@ -174,21 +176,21 @@ Result:
 | Goodyear        |              1155 |
 +-----------------+-------------------+
 (Output limit exceeded, 25 of 362 total rows shown)
-
+```
 	
 #### 6) Find the distribution of star ratings to the business in the following cities:
 
 i. Avon
 
 SQL code used to arrive at answer:
-
+```
 	SELECT count(*) as Num_Stars, stars
 	FROM business
         WHERE city = 'Avon'
 	GROUP BY stars
-
-Copy and Paste the Resulting Table Below (2 columns – star rating and count):
-
+```
+Result:
+```
 +-----------+-------+
 | Num_Stars | stars |
 +-----------+-------+
@@ -199,18 +201,18 @@ Copy and Paste the Resulting Table Below (2 columns – star rating and count):
 |         1 |   4.5 |
 |         1 |   5.0 |
 +-----------+-------+
-
+```
 ii. Beachwood
 
-SQL code used to arrive at answer:
-	
+SQL code:
+```	
 	SELECT count(*) as Num_Stars, stars
 	FROM business
         WHERE city = 'Beachwood'
 	GROUP BY stars
-
-Copy and Paste the Resulting Table Below (2 columns – star rating and count):
-
+```
+Result:
+```
 +-----------+-------+
 | Num_Stars | stars |
 +-----------+-------+
@@ -222,19 +224,20 @@ Copy and Paste the Resulting Table Below (2 columns – star rating and count):
 |         2 |   4.5 |
 |         5 |   5.0 |
 +-----------+-------+
-
+```
 
 #### 7) Find the top 3 users based on their total number of reviews:
 		
-	SQL code used to arrive at answer:
-
+SQL Code:
+```
 	SELECT name, yelping_since, review_count
 	FROM user
 	GROUP BY review_count
 	ORDER BY review_count DESC
 	limit 3
-		
-	Copy and Paste the Result Below:
+```		
+Result:
+```
 +--------+---------------------+--------------+
 | name   | yelping_since       | review_count |
 +--------+---------------------+--------------+
@@ -242,14 +245,14 @@ Copy and Paste the Resulting Table Below (2 columns – star rating and count):
 | Sara   | 2010-05-16 00:00:00 |         1629 |
 | Yuri   | 2008-01-03 00:00:00 |         1339 |
 +--------+---------------------+--------------+	
-
+```
 
 #### 8) Does posing more reviews correlate with more fans?
 
-	Please explain your findings and interpretation of the results: 
+Please explain your findings and interpretation of the results: 
 
-With growing the number of reviews for each person, his fans does not increase. So, it means that there is no correlation between review count and number of fans.
-Top 10 persons with most reviews and their fans number has been shown in the below:
+With growing the number of reviews for each person, his fans does not increase. So, it means that there is no correlation between review count and number of fans. Top 10 persons with most reviews and their fans number has been shown in the below:
+```
 +-----------+---------------------+--------------+------+
 | name      | yelping_since       | review_count | fans |
 +-----------+---------------------+--------------+------+
@@ -264,13 +267,11 @@ Top 10 persons with most reviews and their fans number has been shown in the bel
 | Mimi      | 2011-03-30 00:00:00 |          968 |  497 |
 | Christine | 2009-07-08 00:00:00 |          930 |  173 |
 +-----------+---------------------+--------------+------+
-
-There is another way which is more scientific for answering this question. We can create the distribution for average of reviews and number of fans. 
-With this way you can see that reviews are positively correlated with fans.
+```
+There is another way which is more scientific for answering this question. We can create the distribution for average of reviews and number of fans. With this way you can see that reviews are positively correlated with fans.
 	
-For using the 2nd way, we should utilize Case statement to bin fans into 5 categories incrementally, then find the average reviews of each bin.
-If the two are correlated, you will expect the review numbers to increase as the fan_bin increases.
-
+For using the 2nd way, we should utilize Case statement to bin fans into 5 categories incrementally, then find the average reviews of each bin. If the two are correlated, you will expect the review numbers to increase as the fan_bin increases.
+```
    SELECT
        CASE
            WHEN fans < 10 THEN 1
@@ -283,7 +284,9 @@ If the two are correlated, you will expect the review numbers to increase as the
    FROM user
    GROUP BY fans_bin
    ORDER BY fans_bin;
-
+```
+Result:
+```
 +----------+---------------+
 | fans_bin |   avg_reviews |
 +----------+---------------+
@@ -293,34 +296,35 @@ If the two are correlated, you will expect the review numbers to increase as the
 |        4 | 377.161290323 |
 |        5 | 513.463768116 |
 +----------+---------------+
-	
+```
 #### 9) Are there more reviews with the word "love" or with the word "hate" in them?
 
-	Answer: The reviews with love are almost 8 times the number of words with hate: 
-		Hate= 232
-		Love= 1,780
+Answer: The reviews with love are almost 8 times the number of words with hate: 
+*Hate= 232*
+*Love= 1,780*
 	
-	SQL code used to arrive at answer:
-
+SQL Code:
+```
 	SELECT SUM(LOVE) AS Love, 
                SUM(HATE) AS Hate 
 	FROM
 	      (SELECT (text LIKE "%love%") AS LOVE, 
               (text LIKE "%hate%") AS HATE 
 	       FROM Review)
-
+```
 	
 #### 10) Find the top 10 users with the most fans:
 
-	SQL code used to arrive at answer:
-	
+SQL Code:
+```	
 	SELECT name, yelping_since, fans
 	FROM user
 	GROUP BY fans
 	ORDER BY fans DESC
 	Limit 10
-	
-	Copy and Paste the Result Below:
+```	
+Result:
+```
 +-----------+---------------------+------+
 | name      | yelping_since       | fans |
 +-----------+---------------------+------+
@@ -335,7 +339,7 @@ If the two are correlated, you will expect the review numbers to increase as the
 | Fran      | 2012-04-05 00:00:00 |  124 |
 | Lissa     | 2007-08-14 00:00:00 |  120 |
 +-----------+---------------------+------+
-	
+```	
 #### 11) Is there a strong relationship (or correlation) between having a high number of fans and being listed as "useful" or "funny?" Out of the top 10 users with the highest number of fans, what percent are also listed as “useful” or “funny”?
 
 Key:
@@ -343,15 +347,16 @@ Key:
 26% - 75% - Medium relationship
 76% - 100% - Strong relationship
 	
-	SQL code used to arrive at answer:
-
+SQL Code:
+```
 	SELECT name, id, fans, useful, funny
 	FROM user
 	GROUP BY fans
 	ORDER BY fans DESC
         Limit 10
-
-	Copy and Paste the Result Below:
+```
+Result:
+```
 +-----------+------+--------+--------+
 | name      | fans | useful |  funny |
 +-----------+------+--------+--------+
@@ -366,9 +371,10 @@ Key:
 | Fran      |  124 |   9851 |   7606 |
 | Lissa     |  120 |    455 |    150 |
 +-----------+------+--------+--------+
-	Please explain your findings and interpretation of the results: 
-There is a person with name of Harald who has the highest numbers in "useful" and "funny" columns, but his number of fans is 311 which is not the highest number in fans. 
-So, with considering the numbers for three columns we can see that there is no correlation between fan number and being labled as funny or useful.  
+```
+Please explain your findings and interpretation of the results:
+*There is a person with name of Harald who has the highest numbers in "useful" and "funny" columns, but his number of fans is 311 which is not the highest number in fans. 
+So, with considering the numbers for three columns we can see that there is no correlation between fan number and being labled as funny or useful. *
 		
 
 ### Part 2: Inferences and Analysis
@@ -376,16 +382,16 @@ So, with considering the numbers for three columns we can see that there is no c
 #### 12) Pick one city and category of your choice and group the businesses in that city or category by their overall star rating. Compare the businesses with 2-3 stars to the businesses with 4-5 stars and answer the following questions. Include your code.
 	
 i. Do the two groups you chose to analyze have a different distribution of hours?
-	Yes they seem to have a different distribution of hours, 2-3 stars are normally around 8:00 to 20:00 while 4-5 stars are mainly between 11:00-21:00.
+Yes they seem to have a different distribution of hours, 2-3 stars are normally around 8:00 to 20:00 while 4-5 stars are mainly between 11:00-21:00.
 
 ii. Do the two groups you chose to analyze have a different number of reviews?
-	Yes, The review counts for 2-3 stars are much lower than 4-5 stars.         
+Yes, The review counts for 2-3 stars are much lower than 4-5 stars.         
          
 iii. Are you able to infer anything from the location data provided between these two groups? Explain.
-	Yes, they are so close to each other.
+Yes, they are so close to each other.
 
-SQL code used for analysis:
-
+SQL Code:
+```
 	Select *, 
 	CASE  
 	WHEN (StarReviews >= 2) AND (StarReviews <= 3) THEN '2-3 Stars'
@@ -401,9 +407,9 @@ SQL code used for analysis:
 	WHERE CITY = "Toronto"
 	GROUP BY category)
 	ORDER BY ClassByReview
-
+```
 RESULTS:
-
+```
 +----------------------+----+-------------+----------------------+---------------+
 | category             | Ct | StarReviews | hours                | ClassByReview |
 +----------------------+----+-------------+----------------------+---------------+
@@ -434,10 +440,10 @@ RESULTS:
 | Music & Video        |  7 |         4.5 | Saturday|16:00-2:00  | 4-5 Stars     |
 +----------------------+----+-------------+----------------------+---------------+
 (Output limit exceeded, 25 of 46 total rows shown)
-
+```
 We can also write another query for consideration of number of reviews and the rating (stars), which conclude that the 
 business with higher rating have more reviews.
-
+```
 SELECT 
 -- Get two categories using case, filter out 0 in where clause
     CASE
@@ -461,8 +467,9 @@ WHERE
     star_rating != '0'
     AND category = 'Shopping'
     AND city = 'Las Vegas';
-	
-
+```	
+Result:
+```
 +-------------+--------------+-----------+-------------+----------+--------------------------------+-------------+-----------+------------+
 | star_rating | review_count | city      | postal_code | category | name                           | day_of_week | open_time | close_time |
 +-------------+--------------+-----------+-------------+----------+--------------------------------+-------------+-----------+------------+
@@ -486,7 +493,7 @@ WHERE
 | 4-5         |            4 | Las Vegas | 89118       | Shopping | Desert Medical Equipment       | Wednesday   | 8:00      | 17:00      |
 | 4-5         |            4 | Las Vegas | 89118       | Shopping | Desert Medical Equipment       | Monday      | 8:00      | 17:00      |
 +-------------+--------------+-----------+-------------+----------+--------------------------------+-------------+-----------+------------+
-
+```
 #### 13) Group business based on the ones that are open and the ones that are closed. What differences can you find between the ones that are still open and the ones that are closed? List at least two differences and the SQL code you used to arrive at your answer.
 		
 i. Difference 1:
@@ -495,21 +502,24 @@ Average Number of reviews for Closed Business is 23.2 and for open ones is 31.75
 ii. Difference 2:
 Type of the business are different (based on names, the ones which are not open are a Bistro and a Cafe)
          
-SQL code used for analysis:
-
+SQL Code:
+```
 	Select  is_open, COUNT(*) AS NoBusiness, AVG(stars) As AverageRating, MAX(stars) As MaxRating, Min(stars) As MinRating, SUM(review_count) AS TotalReviews, AVG(review_count) AS AverageReviews
 	FROM Business
 	GROUP BY is_open
-
+```
+Result:
+```
 +---------+------------+---------------+-----------+-----------+--------------+----------------+
 | is_open | NoBusiness | AverageRating | MaxRating | MinRating | TotalReviews | AverageReviews |
 +---------+------------+---------------+-----------+-----------+--------------+----------------+
 |       0 |       1520 | 3.52039473684 |       5.0 |       1.0 |        35261 |  23.1980263158 |
 |       1 |       8480 | 3.67900943396 |       5.0 |       1.0 |       269300 |  31.7570754717 |
 +---------+------------+---------------+-----------+-----------+--------------+----------------+
-	
+```	
 iii. Difference 3: Businesses with is_open, are more likely to be a nightlife business like bars or restaurants.
-
+SQL Code:
+```
 SELECT C.category, 
 COUNT(B.id) AS total_businesses, 
 SUM(CAST(is_open AS real))/CAST(COUNT(B.id) AS real) AS percent_open
@@ -517,7 +527,9 @@ FROM business AS B
 JOIN category AS C ON B.id = C.business_id
 GROUP BY C.category
 ORDER BY total_businesses DESC;
-
+```
+Result:
+```
 +---------------------------+------------------+----------------+
 | category                  | total_businesses |   percent_open |
 +---------------------------+------------------+----------------+
@@ -548,37 +560,36 @@ ORDER BY total_businesses DESC;
 | Japanese                  |                5 |            0.6 |
 +---------------------------+------------------+----------------+
 (Output limit exceeded, 25 of 257 total rows shown)
-
+```
 	
 #### 14) For this last part of your analysis, you are going to choose the type of analysis you want to conduct on the Yelp dataset and are going to prepare the data for analysis.
 
 Ideas for analysis include: Parsing out keywords and business attributes for sentiment analysis, clustering businesses to find commonalities or anomalies between them, predicting the overall star rating for a business, predicting the number of fans a user will have, and so on. These are just a few examples to get you started, so feel free to be creative and come up with your own problem you want to solve. Provide answers, in-line, to all of the following:
 	
+	
 i. Indicate the type of analysis you chose to do:
 
-	I can analyse the type of business based on the "name" column, and decide which business is has more fans and reviews. Also, it is important to see Which type of businesses are thriving by reviews and have at least 10 of such.       
-         
+I can analyse the type of business based on the "name" column, and decide which business is has more fans and reviews. Also, it is important to see Which type of businesses are thriving by reviews and have at least 10 of such.       
+       
+       
 ii. Write 1-2 brief paragraphs on the type of data you will need for your analysis and why you chose that data:
 
-	I would need a column/variable which indicates the type of business. With that information I could recognize for each business what factors are important? For example is the 
-       the location of a restaurant important in the stars it gets? I would also check the relation between the type of a business and the number of reviews. Being open or not would
-       be also important for rating in some types of businesses.
-        
-	Also, it is possible to compare the restaurants from their type of foods. For example, in query 3 I have tried to 
-       make different type of restaurants and check the ratings for each category of foods.
+I would need a column/variable which indicates the type of business. With that information I could recognize for each business what factors are important? For example is the the location of a restaurant important in the stars it gets? I would also check the relation between the type of a business and the number of reviews. Being open or not would be also important for rating in some types of businesses.    
+Also, it is possible to compare the restaurants from their type of foods. For example, in query 3 I have tried to make different type of restaurants and check the ratings for each category of foods.
  
-iii. Output of your finished dataset:
-iv. Provide the SQL code you used to create your final dataset:
+iii. SQL codes and Results:
 
 Query 1:
-
+```
 SELECT name, b.city, c.category, b.stars, b.review_count, b.is_open 
 FROM business b 
 LEFT JOIN category c
 ON b.id = c.business_id
 where b.city like '%Vegas%' and c.category is not null
 ORDER BY c.category DESC
-
+```
+Result:
+```
 +------------------------------------------------+-----------+-------------------------------+-------+--------------+---------+
 | name                                           | city      | category                      | stars | review_count | is_open |
 +------------------------------------------------+-----------+-------------------------------+-------+--------------+---------+
@@ -609,10 +620,10 @@ ORDER BY c.category DESC
 | Children's Dental Center                       | Las Vegas | Pediatric Dentists            |   4.0 |           11 |       1 |
 +------------------------------------------------+-----------+-------------------------------+-------+--------------+---------+
 (Output limit exceeded, 25 of 78 total rows shown)
-  
+```
 
 Query 2:
-
+```
 Select category, COUNT(*) AS NoOfBusiness,avg(stars) As StarReviews, Avg(review_count) AS Avgreviews FROm
 business LEFT JOIN category
 on business.id = category.business_id
@@ -622,7 +633,9 @@ WHERE business.is_open =1
 GROUP BY category
 HAVING NoOfBusiness >10
 ORDER BY StarReviews DESC
-
+```
+Result:
+```
 +-----------------------+--------------+---------------+---------------+
 | category              | NoOfBusiness |   StarReviews |    Avgreviews |
 +-----------------------+--------------+---------------+---------------+
@@ -653,9 +666,9 @@ ORDER BY StarReviews DESC
 | Sandwiches            |           28 | 4.08928571429 | 164.321428571 |
 +-----------------------+--------------+---------------+---------------+
 (Output limit exceeded, 25 of 59 total rows shown)  
-
+```
 Query 3: 
-
+```
 SELECT  C.Category
         , AVG(B.review_count) AS Avg_Number_Of_Reviews
         , AVG(b.stars)
@@ -663,7 +676,9 @@ FROM category c INNER JOIN business b ON b.id = c.business_id
 WHERE C.Category IN ("Chinese","French","Indian","Italian","Japanese","Korean","Mexican")
 GROUP BY c.category 
 ORDER BY AVG(b.stars) DESC
-
+```
+Result:
+```
 +----------+-----------------------+--------------+
 | category | Avg_Number_Of_Reviews | AVG(b.stars) |
 +----------+-----------------------+--------------+
@@ -675,7 +690,7 @@ ORDER BY AVG(b.stars) DESC
 | Mexican  |         46.7142857143 |          3.5 |
 | Chinese  |                 199.0 |        3.125 |
 +----------+-----------------------+--------------+     
-         
+```        
 © 2022 GitHub, Inc.
 Terms
 Privacy
