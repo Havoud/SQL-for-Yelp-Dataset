@@ -5,7 +5,7 @@ Using SQL for Analysing Yelp dataset on a Coursera's online course with name of 
 
 In this assignment, specifically, I was going to be playing the role of a real-world data scientist using SQL to both answer specific questions for an organization and make inferences based on my discoveries. 
 
-I will be using a dataset from a US-based organization called Yelp, which provides a platform for users to provide reviews and rate their interactions with a variety of organizations – businesses, restaurants, health clubs, hospitals, local governmental offices, charitable organizations, etc. Yelp has made a portion of this data available for personal, educational, and academic purposes.
+I will be using a dataset from a US-based organization called Yelp, which provides a platform for users to provide reviews and rate their interactions with a variety of organizations, businesses, restaurants, health clubs, hospitals, local governmental offices, charitable organizations, etc. Yelp has made a portion of this data available for personal, educational, and academic purposes.
 
 I was asked a series of questions regarding the data to help me profile and better understand the data in the first part of the assignment. Also, there are some questions in part 2, which require writing a variety of SQL statements.
 
