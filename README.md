@@ -387,7 +387,7 @@ Please explain your findings and interpretation of the results:
 So, with considering the numbers for three columns we can see that there is no correlation between fan number and being labled as funny or useful. *
 		
 
-### Part 2: Inferences and Analysis
+## Part 2: Inferences and Analysis
 
 #### 12) Pick one city and category of your choice and group the businesses in that city or category by their overall star rating. Compare the businesses with 2-3 stars to the businesses with 4-5 stars and answer the following questions. Include your code.
 	
